@@ -1,3 +1,7 @@
+<?php
+
+namespace husnusetiawan;
+
 /**
  * Class SocketIO
  * develope by psinetron (slybeaver)

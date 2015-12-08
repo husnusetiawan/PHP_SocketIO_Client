@@ -1,0 +1,21 @@
+{
+    "name": "husnusetiawan/SocketIO",
+    "description": "PHP client for consuming RajaOngkir API",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Sly Beaver (psinetron)",
+            "email": "psinetron@mail.ru"
+        },
+        {
+            "name": "Husnu Setiawan",
+            "email": "husnusetiawan@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap":["src/"]
+    },
+    "classmap" : [
+        "tests"
+    ]
+}
