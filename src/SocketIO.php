@@ -20,14 +20,14 @@ class SocketIO
      * @param string $transport - transport type
      * @return bool
      */
-    public function send($host = null, $port = null, $action= "message",  $data = null, $address = "/socket.io/?EIO=2", $transport = 'websocket')
+    public function send($host = null, $port = null, $action= "message",  $data = null, $address = "/socket.io/?EIO=3", $transport = 'websocket')
     {
         $fd = fsockopen($host, $port, $errno, $errstr);
         if (!$fd) {
             return false;
         } //Can't connect tot server
         $key = $this->generateKey();
-        $out = "GET $address&transport=$transport HTTP/1.1\r\n";
+        $out = "GET $address&sessionid=&transport=$transport HTTP/1.1\r\n";
         $out.= "Host: http://$host:$port\r\n";
         $out.= "Upgrade: WebSocket\r\n";
         $out.= "Connection: Upgrade\r\n";
@@ -35,6 +35,7 @@ class SocketIO
         $out.= "Sec-WebSocket-Version: 13\r\n";
         $out.= "Origin: *\r\n\r\n";
 
+        stream_set_timeout($fd,5);
         fwrite($fd, $out);
         // 101 switching protocols, see if echoes key
         $result= fread($fd,10000);
@@ -46,6 +47,8 @@ class SocketIO
         if ($handshaked){
             fwrite($fd, $this->hybi10Encode('42["' . $action . '", "' . addslashes($data) . '"]'));
             fread($fd,1000000);
+            sleep(2);
+            fclose($fd);
             return true;
         } else {return false;}
     }
